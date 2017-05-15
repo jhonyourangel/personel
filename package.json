@@ -1,0 +1,34 @@
+{
+    "name": "youtube2mp3",
+    "version": "1.0.1",
+    "description": "Download mp3 from youtube",
+    "private": true,
+    "main": "bin/www",
+    "scripts": {
+        "start": "node bin/www"
+    },
+    "author": "Ion Utale <ion.utale@icloud.com>",
+    ,
+    "dependencies": {
+        "bcrypt-nodejs": "0.0.3",
+        "body-parser": "~1.13.2",
+        "connect-flash": "^0.1.1",
+        "cookie-parser": "~1.3.5",
+        "debug": "~2.2.0",
+        "ejs": "~2.3.3",
+        "express": "~4.13.1",
+        "express-session": "~1.0.0",
+        "method-override": "~1.0.0",
+        "mongoose": "^4.6.7",
+        "mongodb": "^2.2.11",
+        "morgan": "~1.6.1",
+
+        "passport": "^0.3.2",
+        "passport-facebook": "^2.1.1",
+        "passport-google-oauth": "^1.0.0",
+        "passport-local": "^1.0.0",
+        "serve-favicon": "~2.3.0",
+
+        "youtube-mp3-downloader"
+    }
+}

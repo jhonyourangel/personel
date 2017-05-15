@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./font-awesome/css/font-awesome.min.css">
+    <style>
+    body {
+        padding-top: 80px;
+        word-wrap: break-word;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header text-center">
+            <h1><span class="fa fa-film"></span> Insert link or video id </h1>
+        </div>
+        <div class="row">
+            <!-- LOCAL INFORMATION -->
+            <div class="col-sm-12">
+                <!--    <div id="control_group" class="well">
+                    <input type="search" class="col-sm-3 input form-control" name="videoid" placeholder="http://www.youtube.com?v=">
+                    <button id="mp3" class="btn btn-primary">mp3</button>
+                </div>
+                <p id="videoTitle"></p>
+            </div> -->
+                <div id="control_group" class="input-group">
+                    <input type="search" class="form-control" name="videoid" placeholder="http://www.youtube.com?v=">
+                    <span class="input-group-btn">
+                        <button id="mp3" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true">
+                        </span> Search!</button>
+                    </span>
+                </div>
+                <p id="videoTitle"></p>
+            </div>
+        </div>
+</body>
+<script src="./jquery/jquery.min.js"></script>
+<script type="text/javascript">
+let spinnerIcon = `fa fa-spinner fa-spin"`;
+let searchIcon = `glyphicon glyphicon-search`;
+
+$("#mp3").click(function() {
+    $('#videoTitle').text('');
+    $('#download').remove();
+    $('#mp3>span').addClass(spinnerIcon).removeClass(searchIcon);
+
+    let videoid = $('input[type="search"]').val();
+    let urlID = videoid.split("watch?v=");
+    let ID = urlID == 1 ? urlID[0] : urlID[1];
+    $.get('download/videoid', {
+        'videoid': ID
+    }, function(data) {
+        console.log(data);
+        $('#mp3>span').removeClass(spinnerIcon).addClass(searchIcon);
+        $('.input-group-btn').append(`<a id="download" class="btn btn-primary" href="./download/song?id=${data.id}">download</a>`)
+        $('#videoTitle').text(data.videoTitle);
+    })
+});
+</script>
+
+</html>
