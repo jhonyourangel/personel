@@ -72,7 +72,7 @@ module.exports = function(app, passport) {
     });
 
     app.get('/profile/user', isLoggedIn, function(req, res) {
-        Role.findOne({ "role": "Admin" }, "links role", function(err, role) {
+        Role.findOne({ "role": req.user.role }, "links role", function(err, role) {
             console.log(err, role);
             res.json({ err, role });
         });

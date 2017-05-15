@@ -1,14 +1,14 @@
 {
-    "name": "youtube2mp3",
+    "name": "personel",
     "version": "1.0.1",
-    "description": "Download mp3 from youtube",
+    "description": "HR soft",
     "private": true,
     "main": "bin/www",
     "scripts": {
         "start": "node bin/www"
     },
     "author": "Ion Utale <ion.utale@icloud.com>",
-    ,
+
     "dependencies": {
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "~1.13.2",
@@ -27,8 +27,6 @@
         "passport-facebook": "^2.1.1",
         "passport-google-oauth": "^1.0.0",
         "passport-local": "^1.0.0",
-        "serve-favicon": "~2.3.0",
-
-        "youtube-mp3-downloader"
+        "serve-favicon": "~2.3.0"
     }
 }

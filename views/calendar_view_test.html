@@ -13,11 +13,15 @@
     }
     
     .myP {
-        width: 20px;
+        width: 50px;
         height: 20px;
         background-color: rgb(226, 160, 160);
         ;
         margin: 2px;
+    }
+    
+    .trasnparent {
+        background-color: transparent;
     }
     </style>
 </head>
@@ -25,29 +29,43 @@
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-xs-6 myP">1</div>
-            <div class="col-xs-6 myP">2</div>
-            <div class="col-xs-6 myP">3</div>
-            <div class="col-xs-6 myP">4</div>
-            <div class="col-xs-6 myP">5</div>
-            <div class="col-xs-6 myP">6</div>
-            <div class="col-xs-6 myP">7</div>
         </div>
     </div>
 </body>
 <script src="../public/jquery/jquery.js"></script>
 <script type="text/javascript">
-var sqares = 30;
-var sqaresHTML = '<div class="row">';
+var sqares = 31;
+var todayDate = now();
+genMonth();
 
-for (var i = 1; i < sqares; i++) {
-    sqaresHTML += `       
-            <div class="col-xs-6 myP">${i}</div>
-        `;
+
+
+function genMonth() {
+    var sqaresHTML = "";
+
+    for (var i = 0; i < sqares; i++) {
+
+        if ((i % 7) > 0) {
+
+            sqaresHTML += `<div class="col-xs-6 myP">${i+1}</div>`;
+
+        }
+        if ((i % 7) == 0) {
+
+            sqaresHTML += '<div class="row">';
+            sqaresHTML += `<div class="col-xs-6 myP">${i+1}</div>`;
+
+        }
+        if ((i % 7) == 6) {
+
+            sqaresHTML += '</div>';
+
+        }
+
+    }
+
+    $('.container').append(sqaresHTML);
 }
-sqaresHTML += '</div>';
-
-$('.container').append(sqaresHTML);
 </script>
 
 </html>
