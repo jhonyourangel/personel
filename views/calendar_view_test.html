@@ -15,9 +15,11 @@
     .myP {
         width: 50px;
         height: 20px;
-        background-color: rgb(226, 160, 160);
-        ;
         margin: 2px;
+    }
+    
+    .colored {
+        background-color: rgb(226, 160, 160);
     }
     
     .trasnparent {
@@ -34,37 +36,48 @@
 </body>
 <script src="../public/jquery/jquery.js"></script>
 <script type="text/javascript">
-var sqares = 31;
-var todayDate = now();
+Date.prototype.addDays = function(d) {
+    return this.valueOf() + 864E5 * d;
+};
+var sqares = 100;
+var todayDate = new Date();
+
+
 genMonth();
-
-
 
 function genMonth() {
     var sqaresHTML = "";
-
     for (var i = 0; i < sqares; i++) {
+        var d = new Date(todayDate.addDays(i));
+        console.log(d);
+        // if 1 day of the month add new row and empty slots
+        if (d.getDate() == 1) {
+            sqaresHTML += '</div>';
+            sqaresHTML += genTrasparent(d.getDay() - 1); // emptySlots
+            sqaresHTML += '<div class="row">';
+            sqaresHTML += `<div class="col-xs-6 myP colored">${d.getDate()}</div>`;
+        }
 
-        if ((i % 7) > 0) {
-
-            sqaresHTML += `<div class="col-xs-6 myP">${i+1}</div>`;
-
+        if ((i % 7) > 0 && d.getDate() !== 1) {
+            sqaresHTML += `<div class="col-xs-6 myP colored">${d.getDate()}</div>`;
         }
         if ((i % 7) == 0) {
-
             sqaresHTML += '<div class="row">';
-            sqaresHTML += `<div class="col-xs-6 myP">${i+1}</div>`;
-
+            sqaresHTML += `<div class="col-xs-6 myP colored">${d.getDate()}</div>`;
         }
         if ((i % 7) == 6) {
-
             sqaresHTML += '</div>';
-
         }
-
     }
-
     $('.container').append(sqaresHTML);
+}
+
+function genTrasparent(nr) {
+    var sqaresHTML = "";
+    for (var i = 0; i < nr; i++) {
+        sqaresHTML += `<div class="col-xs-6 myP transparent"></div>`;
+    }
+    return sqaresHTML;
 }
 </script>
 
