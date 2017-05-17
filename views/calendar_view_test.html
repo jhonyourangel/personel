@@ -29,9 +29,7 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-        </div>
+    <div id="container" class="container">
     </div>
 </body>
 <script src="../public/jquery/jquery.js"></script>
@@ -49,27 +47,65 @@ function genMonth() {
     var sqaresHTML = "";
     for (var i = 0; i < sqares; i++) {
         var d = new Date(todayDate.addDays(i));
-        console.log(d);
+        //console.log(d);
         // if 1 day of the month add new row and empty slots
-        if (d.getDate() == 1) {
-            sqaresHTML += '</div>';
-            sqaresHTML += genTrasparent(d.getDay() - 1); // emptySlots
-            sqaresHTML += '<div class="row">';
-            sqaresHTML += `<div class="col-xs-6 myP colored">${d.getDate()}</div>`;
+        // if error on 1 day display spot check system format
+        // EU - 1 day
+        // US - 2 day
+
+        // rules to consider:
+        // 1. First day of the week
+        // 2. First day of the month
+        // 
+
+        var weekDay = d.getDay();
+        var monthDay = d.getDate();
+
+        // the first day in the sett date
+        if (weekDay !== 0 && monthDay !== 1 && i === 0) {
+            sqaresHTML += genRowBeggin();
+            sqaresHTML += genTrasparent(weekDay);
+        }
+        // first day of the week
+        if (weekDay === 0) {
+            sqaresHTML += genRowBeggin();
+            sqaresHTML += genSquare(d);
         }
 
-        if ((i % 7) > 0 && d.getDate() !== 1) {
-            sqaresHTML += `<div class="col-xs-6 myP colored">${d.getDate()}</div>`;
+        // not the first or last day of teh week, not the first day of the month 
+        if (weekDay > 0 && weekDay < 6 && monthDay !== 1) {
+            sqaresHTML += genSquare(d);
         }
-        if ((i % 7) == 0) {
-            sqaresHTML += '<div class="row">';
-            sqaresHTML += `<div class="col-xs-6 myP colored">${d.getDate()}</div>`;
+
+        // last day of the week
+        if (weekDay === 6) {
+            sqaresHTML += genSquare(d);
+            sqaresHTML += genRowEnd();
         }
-        if ((i % 7) == 6) {
-            sqaresHTML += '</div>';
+
+        // first day of the month and not the last day of the week
+        if (monthDay === 1 && weekDay !== 6) {
+            sqaresHTML += genTrasparent(7 - weekDay);
+            sqaresHTML += genRowEnd();
+            sqaresHTML += genRowBeggin();
+            sqaresHTML += genTrasparent(weekDay);
+            sqaresHTML += genSquare(d);
         }
     }
+    console.log(sqaresHTML);
     $('.container').append(sqaresHTML);
+}
+
+function genRowBeggin() {
+    return '<div class="row">';
+}
+
+function genRowEnd() {
+    return '</div>';
+}
+
+function genSquare(d) {
+    return `<div class="col-xs-6 myP colored">${d.getDate()}</div>`
 }
 
 function genTrasparent(nr) {
@@ -78,6 +114,26 @@ function genTrasparent(nr) {
         sqaresHTML += `<div class="col-xs-6 myP transparent"></div>`;
     }
     return sqaresHTML;
+}
+
+
+
+//*****************************************************
+//*************** scrool event
+//***************
+
+document.getElementById('container').addEventListener('wheel', weelEvent);
+var divTotalPos = 0;
+
+function weelEvent(e) {
+    // cross-browser wheel delta
+    var e = window.event || e; // old IE support
+    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+    divTotalPos += delta;
+    console.log(e, delta);
+    $('.row').css({
+        marginTop: `-=${divTotalPos}px`
+    });
 }
 </script>
 
