@@ -6,6 +6,13 @@
     <link rel="stylesheet" href="../public/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
     <style type="text/css">
+    .row {
+        position: absolute;
+        width: 200px;
+        height: 30px;
+        background-color: red;
+    }
+    
     .container {
         width: 500px;
         height: 500px;
@@ -30,6 +37,9 @@
 
 <body>
     <div id="container" class="container">
+        <div class="row" style="top:0px;">1</div>
+        <div class="row" style="top:40px;">2</div>
+        <div class="row" style="top:80px;">3</div>
     </div>
 </body>
 <script src="../public/jquery/jquery.js"></script>
@@ -41,7 +51,7 @@ var sqares = 100;
 var todayDate = new Date();
 
 
-genMonth();
+//genMonth();
 
 function genMonth() {
     var sqaresHTML = "";
@@ -92,7 +102,7 @@ function genMonth() {
             sqaresHTML += genSquare(d);
         }
     }
-    console.log(sqaresHTML);
+    //console.log(sqaresHTML);
     $('.container').append(sqaresHTML);
 }
 
@@ -119,8 +129,12 @@ function genTrasparent(nr) {
 
 
 //*****************************************************
-//*************** scrool event
+//*************** scroll event
 //***************
+
+// the scroll is working fine, but i need to reposition all the row
+// the css attribute "position" : "absolute" is positioning all the 
+// elements on the first pixels of the .container
 
 document.getElementById('container').addEventListener('wheel', weelEvent);
 var divTotalPos = 0;
@@ -132,9 +146,30 @@ function weelEvent(e) {
     divTotalPos += delta;
     console.log(e, delta);
     $('.row').css({
-        marginTop: `-=${divTotalPos}px`
+        top: `-=${delta}px`
     });
+    console.log("this should be the row position:", $('.row').eq(0).css({
+        top
+    }));
 }
+
+/*
+$('.row').click(function() {
+    console.log('clicked');
+    $('.row').css({
+        "top": ($(window).scrollTop()) + "px",
+        //"left": ($(window).scrollLeft()) + "px"
+    });
+});
+
+$(window).scroll(function() {
+    console.log("scrolling");
+    $('.row').css({
+        "top": ($(window).scrollTop()) + "px",
+        //"left": ($(window).scrollLeft()) + "px"
+    });
+});
+*/
 </script>
 
 </html>
