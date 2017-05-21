@@ -139,10 +139,7 @@ function weelEvent(e) {
     // cross-browser wheel delta
     var e = window.event || e; // old IE support
     var delta = Math.max(-40, Math.min(40, (e.wheelDelta || -e.detail)));
-    console.log(e);
-    console.log(delta);
     moveRows(-delta);
-    console.log("this should be the row position:", $('#13').css("top"));
 }
 
 var cWidth = 500;
@@ -163,23 +160,9 @@ function moveRows(delta) {
     var rowToReuse;
     for (var i = 0; i < objArr.length; i++) {
         objArr[i].setVPos(delta);
-        if (objArr[i].id == 13) console.log(objArr[i].id, objArr[i].vPos);
         $(`#${objArr[i].id}`).css({
             top: `-=${delta}px`
         });
-
-        if (objArr[i].vPos < firstRowPos) firstRowPos = objArr[i].vPos;
-        if (objArr[i].vPos > lastRowPos) lastRowPos = objArr[i].vPos;
-
-        if (objArr[i].vPos > cHeight) {
-            console.log(`${objArr[i].id} should move up`);
-            objArr[i].moveUp();
-        }
-
-        if (objArr[i].vPos < -40) {
-            console.log(`${objArr[i].id} should move up`);
-            objArr[i].moveDown();
-        }
     }
 }
 
@@ -187,9 +170,12 @@ function render() {
     var genHtml = ""
 
     for (var i = 0, max = nrOfRows(); i < max; i++) {
+        var d = new Date(todayDate.addDays(i));
+        console.log(d.getDate());
         var rowO = new rowObj();
         rowO.id = i;
-        //rowO.setVPos((rowHeight + sep) * i);
+        //rowO.setText(`${d.getDate()}/${d.getMonth()}/${d.getYear()}`);
+        rowO.setText(`bohh`);
         rowO.vPos = (rowHeight + sep) * i;
 
         genHtml += rowO.htmlString();
@@ -203,25 +189,32 @@ function render() {
 var rowObj = function() {
     this.vPos = 0.0;
     this.id = 1;
+    this.delta = 0;
+    this.text = ""
+    this.setText = function(value) {
+        this.text = value;
+        return "text " + this.text;
+    };
     this.htmlString = function() {
-        return `<div id="${this.id}" class="row" style="top:${this.vPos}px;">${this.id}</div>`;
+        return `<div id="${this.id}" class="row" style="top:${this.vPos}px;">${this.id} - ${this.text}</div>`;
     };
     this.setVPos = function(newValue) {
-        this.vPos += -newValue;
+        var temp = 0;
+        if (this.vPos > cHeight) {
+            temp = this.vPos += 560;
+        } else if (this.vPos < -40) {
+            temp = this.vPos += -560;
+        } else {
+            temp = this.vPos += -newValue;
+        }
+        // check the above conditionals
+        this.DOM(this.id, newValue, this.text);
     };
-    this.moveUp = function() {
-        this.setVPos(560);
-
-        $(`#${this.id}`).css({
-            top: `-=${560}px`
+    this.DOM = function(id, pos, text) {
+        $(`#${id}`).css({
+            top: `-=${pos}px`
         });
-    }
-    this.moveDown = function() {
-        this.setVPos(-560);
-
-        $(`#${this.id}`).css({
-            top: `-=${-560}px`
-        });
+        $(`#${id}`).text(`${id} - ${text}`);
     }
 }
 render();
