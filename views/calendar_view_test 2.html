@@ -37,9 +37,6 @@
 
 <body>
     <div id="container" class="container">
-        <div class="row" style="top:0px;">1</div>
-        <div class="row" style="top:40px;">2</div>
-        <div class="row" style="top:80px;">3</div>
     </div>
 </body>
 <script src="../public/jquery/jquery.js"></script>
@@ -137,20 +134,15 @@ function genTrasparent(nr) {
 // elements on the first pixels of the .container
 
 document.getElementById('container').addEventListener('wheel', weelEvent);
-var divTotalPos = 0;
 
 function weelEvent(e) {
     // cross-browser wheel delta
     var e = window.event || e; // old IE support
-    var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
-    divTotalPos += delta;
-    console.log(e, delta);
-    $('.row').css({
-        top: `-=${delta}px`
-    });
-    console.log("this should be the row position:", $('.row').eq(0).css({
-        top
-    }));
+    var delta = Math.max(-40, Math.min(40, (e.wheelDelta || -e.detail)));
+    console.log(e);
+    console.log(delta);
+    moveRows(-delta);
+    console.log("this should be the row position:", $('#13').css("top"));
 }
 
 var cWidth = 500;
@@ -158,8 +150,8 @@ var cHeight = 500;
 var rowHeight = 30;
 var sep = 10;
 
-var firstRowID = 0;
-var lastRowID = 0;
+var firstRowPos = 0;
+var lastRowPos = 0;
 
 var objArr = [];
 
@@ -167,9 +159,27 @@ function nrOfRows() {
     return cHeight / (sep + rowHeight) + 1;
 }
 
-function setFirstAndLastRow() {
+function moveRows(delta) {
+    var rowToReuse;
     for (var i = 0; i < objArr.length; i++) {
-        objArr[i].vPos;
+        objArr[i].setVPos(delta);
+        if (objArr[i].id == 13) console.log(objArr[i].id, objArr[i].vPos);
+        $(`#${objArr[i].id}`).css({
+            top: `-=${delta}px`
+        });
+
+        if (objArr[i].vPos < firstRowPos) firstRowPos = objArr[i].vPos;
+        if (objArr[i].vPos > lastRowPos) lastRowPos = objArr[i].vPos;
+
+        if (objArr[i].vPos > cHeight) {
+            console.log(`${objArr[i].id} should move up`);
+            objArr[i].moveUp();
+        }
+
+        if (objArr[i].vPos < -40) {
+            console.log(`${objArr[i].id} should move up`);
+            objArr[i].moveDown();
+        }
     }
 }
 
@@ -177,26 +187,42 @@ function render() {
     var genHtml = ""
 
     for (var i = 0, max = nrOfRows(); i < max; i++) {
-        var rowO = rowObj;
+        var rowO = new rowObj();
         rowO.id = i;
+        //rowO.setVPos((rowHeight + sep) * i);
         rowO.vPos = (rowHeight + sep) * i;
 
         genHtml += rowO.htmlString();
-        objArr[i] = rowO;
+        objArr.push(rowO);
+        if (objArr[i].id == 13) console.log(objArr[i].id, objArr[i].vPos);
+
     }
     //$('.container').html("");
     $('.container').append(genHtml);
 }
-var rowObj = {
-    vPos: 0.0,
-    id: 1,
-    move: function(m) {
-        this.vPos += m;
-    },
-    htmlString: function() {
+var rowObj = function() {
+    this.vPos = 0.0;
+    this.id = 1;
+    this.htmlString = function() {
         return `<div id="${this.id}" class="row" style="top:${this.vPos}px;">${this.id}</div>`;
-    }
+    };
+    this.setVPos = function(newValue) {
+        this.vPos += -newValue;
+    };
+    this.moveUp = function() {
+        this.setVPos(560);
 
+        $(`#${this.id}`).css({
+            top: `-=${560}px`
+        });
+    }
+    this.moveDown = function() {
+        this.setVPos(-560);
+
+        $(`#${this.id}`).css({
+            top: `-=${-560}px`
+        });
+    }
 }
 render();
 </script>
