@@ -164,7 +164,7 @@ function moveRows(delta) {
             top: `-=${delta}px`
         });
 
-        if (objArr[i].vPos > cHeight) {
+        /*if (objArr[i].vPos > cHeight) {
             console.log(`${objArr[i].id} should move up`);
             objArr[i].moveUp();
         }
@@ -172,7 +172,7 @@ function moveRows(delta) {
         if (objArr[i].vPos < -40) {
             console.log(`${objArr[i].id} should move up`);
             objArr[i].moveDown();
-        }
+        }*/
     }
 }
 
@@ -207,29 +207,31 @@ var rowObj = function() {
     this.htmlString = function() {
         return `<div id="${this.id}" class="row" style="top:${this.vPos}px;">${this.id} - ${this.text}</div>`;
     };
-    this.setVPos = function(newValue) {
+    this.setVPos = function(delta) {
 
-        this.vPos += -newValue;
+        this.vPos += -delta;
 
-        /*this.DOM(this.id, newValue, this.text);
+        //this.DOM(this.id, delta, this.text);
 
         if (this.vPos > cHeight) {
-            this.vPos += 560;
+            this.setVPos(560)
             this.DOM(this.id, 560, this.text);
-
+            //this.moveUp();
+            /*$(`#${this.id}`).css({
+                top: `-=${560}px`
+            });*/
         }
 
-        if (this.vPos < -40) {
-            this.vPos += 560;
+        /*if (this.vPos < -40) {
+            this.setVPos(-560)
             this.DOM(this.id, -560, this.text);
 
-        }
+        }*/
 
         // check the above conditions
         if (this.id == 12) {
             console.log(this.id, this.vPos, $(`#12`).css('top'));
         }
-        */
 
     };
 
@@ -247,9 +249,9 @@ var rowObj = function() {
             top: `-=${-560}px`
         });
     }
-    this.DOM = function(id, pos, text) {
+    this.DOM = function(id, delta, text) {
         $(`#${id}`).css({
-            top: `-=${pos}px`
+            top: `-=${delta}px`
         });
         $(`#${id}`).text(`${id} - ${text}`);
     }
