@@ -41,7 +41,7 @@ function weelEvent(e) {
 var objArr = [];
 
 function nrOfRows() {
-    return cHeight / (sep + rowHeight) + 1;
+    return Math.round(cHeight / (sep + rowHeight) + 1);
 }
 
 function moveRows(delta) {
@@ -91,7 +91,7 @@ function render() {
         objArr.push(rowO);
 
     }
-    $('.container').append(genHtml);
+    $('#container').append(genHtml);
 };
 
 var RowModel = function() {
@@ -106,7 +106,7 @@ var RowModel = function() {
 
     this.htmlString = function() {
         return `
-<div id="${this.id}" class="col-sm-3">
+<div id="${this.id}"  style="top:${this.vPos}px;">
     <div class="well">
         <h4><span class="fa fa-calendar"></span> ${this.text} </h4>
         <div class="input-group">
@@ -155,7 +155,7 @@ var RowModel = function() {
 
     this.DOM = function(newDate) {
         var readableDate = formatDate(newDate);
-        $(`#${this.id}`).text(`${this.id} - ${readableDate}`);
+        $(`#${this.id} > div.well > h4`).text(`${this.id} - ${readableDate}`);
         this.setText(`${readableDate}`);
     };
 };
