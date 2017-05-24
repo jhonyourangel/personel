@@ -8,17 +8,17 @@ Date.prototype.getMonthName = function() {
 }
 var sqares = 100;
 var todayDate = new Date();
-var container = document.getElementById('container');
+var container = document.getElementById('myRows');
 
 
 var cRect = container.getBoundingClientRect();
 var cWidth = 500;
 var cHeight = 500;
-var rowHeight = 30;
+var cardHeight = 255;
 var sep = 10;
 var cTop = cRect.top;
-var topPos = (cHeight + (rowHeight * 2)) - cTop;
-var bottomPos = (cHeight + (rowHeight * 2)) - cTop;
+var topPos = (cHeight + (cardHeight * 2)) - cTop;
+var bottomPos = (cHeight + (cardHeight * 2)) - cTop;
 
 //*****************************************************
 //*************** scroll event
@@ -41,7 +41,7 @@ function weelEvent(e) {
 var objArr = [];
 
 function nrOfRows() {
-    return Math.round(cHeight / (sep + rowHeight) + 1);
+    return Math.round(cHeight / (sep + cardHeight) + 1);
 }
 
 function moveRows(delta) {
@@ -64,18 +64,6 @@ function moveRows(delta) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function render() {
     var genHtml = ""
     console.log(nrOfRows());
@@ -85,13 +73,13 @@ function render() {
         rowO.id = i;
         rowO.index = i;
         rowO.setText(formatDate(todayDate.addDays(rowO.index)));
-        rowO.vPos = (rowHeight + sep) * i + cTop;
+        rowO.vPos = (cardHeight + sep) * i + cTop;
 
         genHtml += rowO.htmlString();
         objArr.push(rowO);
 
     }
-    $('#container').append(genHtml);
+    $('#myRows').append(genHtml);
 };
 
 var RowModel = function() {
@@ -106,7 +94,7 @@ var RowModel = function() {
 
     this.htmlString = function() {
         return `
-<div id="${this.id}"  style="top:${this.vPos}px;">
+<div id="${this.id}" class="day-card" style="top:${this.vPos}px; width:200px;">
     <div class="well">
         <h4><span class="fa fa-calendar"></span> ${this.text} </h4>
         <div class="input-group">
@@ -136,7 +124,7 @@ var RowModel = function() {
     };
 
     this.moveUp = function() {
-        this.index -= 14;
+        this.index -= nrOfRows();
         this.DOM(todayDate.addDays(this.index));
         this.setVPos(560);
         $(`#${this.id}`).css({
@@ -145,7 +133,7 @@ var RowModel = function() {
     };
 
     this.moveDown = function() {
-        this.index += 14;
+        this.index += nrOfRows();
         this.DOM(todayDate.addDays(this.index));
         this.setVPos(-560);
         $(`#${this.id}`).css({
@@ -155,7 +143,7 @@ var RowModel = function() {
 
     this.DOM = function(newDate) {
         var readableDate = formatDate(newDate);
-        $(`#${this.id} > div.well > h4`).text(`${this.id} - ${readableDate}`);
+        $(`#${this.id} > div.well > h4`).text(`${readableDate}`);
         this.setText(`${readableDate}`);
     };
 };
