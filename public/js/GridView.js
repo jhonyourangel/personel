@@ -1,3 +1,7 @@
+// on hold for the moment
+// no furture development 
+
+
 // improve the date Object
 Date.prototype.addDays = function(d) {
     return this.valueOf() + 864E5 * d;
@@ -159,4 +163,4 @@ function formatDate(dateVal) {
     var monthArray = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
     return `${tempDate.getDate()} ${monthArray[tempDate.getMonth()]} ${tempDate.getFullYear()}`;
 }
-render();
+//render();

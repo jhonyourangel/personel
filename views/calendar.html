@@ -6,88 +6,40 @@
     <title>Node Authentication</title>
     <link rel="stylesheet" href="../public/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
-    <style>
-    body {
-        padding-top: 80px;
-        word-wrap: break-word;
-        overflow: hidden;
-        position: fixed;
-    }
-    
-    .day-card {
-        position: absolute;
-    }
-    
-    #myRows {
-        width: 2000px;
-        height: 500px;
-        background-color: blue;
-        left: 200px;
-    }
-    </style>
 </head>
 
 <body>
     <div class="container">
         <div id="myRows" class="row">
             <!-- LOCAL INFORMATION -->
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 76069b4... to commit
-            <div class="col-xs-4">
-                <div class="well">
-                    <h4><span class="fa fa-calendar"></span> 15 may 2017 </h4>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-in"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-out"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-in"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-out"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-4">
-                <div class="well">
-                    <h4><span class="fa fa-calendar"></span> 16 may 2017 </h4>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-in"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-out"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                    <br>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-in"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1"><span class="fa fa-sign-out"></span></span>
-                        <input type="number" class="form-control" placeholder="00/00" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-            </div>
->>>>>>> parent of 76069b4... to commit
+            <input type="text" id="foo" placeholder="this is the ext">
         </div>
     </div>
 </body>
 <script src="../public/jquery/jquery.js"></script>
 <script src="../public/js/main.js"></script>
-<script src="../public/js/GridView.js"></script>
 <script type="text/javascript">
+// test 2 way binding
+function bindModelInput(obj, property, domElem) {
+    Object.defineProperty(obj, property, {
+        get: function() {
+            return domElem.value;
+        },
+        set: function(newValue) {
+            domElem.value = newValue;
+            domElem.innerHTML = newValue;
+        },
+        configurable: true
+    });
+}
+
+user = {};
+inputElem = document.getElementById("foo");
+bindModelInput(user, 'name', inputElem);
+
+user.name = "Joe";
+
+//inputElem.value = 'Bob';
 </script>
 
 </html>
