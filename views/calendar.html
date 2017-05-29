@@ -10,20 +10,25 @@
     body {
         padding-top: 80px;
         word-wrap: break-word;
+        overflow: hidden;
+        position: fixed;
     }
     
     .day-card {
         position: absolute;
+    }
+    
+    #myRows {
+        width: 2000px;
+        height: 500px;
+        background-color: blue;
+        left: 200px;
     }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="page-header text-center">
-            <h1><span class="fa fa-anchor"></span> Profile Page</h1>
-            <a href="/logout" class="btn btn-default btn-sm">Logout</a>
-        </div>
         <div id="myRows" class="row">
             <!-- LOCAL INFORMATION -->
         </div>

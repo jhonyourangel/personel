@@ -15,6 +15,7 @@ var cRect = container.getBoundingClientRect();
 var cWidth = 500;
 var cHeight = 500;
 var cardHeight = 255;
+var cardWidth = 200;
 var sep = 10;
 var cTop = cRect.top;
 var topPos = (cHeight + (cardHeight * 2)) - cTop;
@@ -41,7 +42,7 @@ function weelEvent(e) {
 var objArr = [];
 
 function nrOfRows() {
-    return Math.round(cHeight / (sep + cardHeight) + 1);
+    return Math.round(cHeight / (sep + cardHeight));
 }
 
 function moveRows(delta) {
@@ -68,22 +69,24 @@ function render() {
     var genHtml = ""
     console.log(nrOfRows());
     for (var i = 0, max = nrOfRows(); i < max; i++) {
-        var d = new Date(todayDate.addDays(i));
-        var rowO = new RowModel();
-        rowO.id = i;
-        rowO.index = i;
-        rowO.setText(formatDate(todayDate.addDays(rowO.index)));
-        rowO.vPos = (cardHeight + sep) * i + cTop;
+        for (var j = 0; j < 6; j++) {
+            var rowO = new RowModel();
+            rowO.id = i;
+            rowO.index = i;
+            rowO.setText(formatDate(todayDate.addDays(rowO.index)));
+            rowO.vPos = (cardHeight + sep) * i + cTop;
+            rowO.hPos = (cardWidth + sep) * i + cTop; // todo : fix this one
 
-        genHtml += rowO.htmlString();
-        objArr.push(rowO);
-
+            genHtml += rowO.htmlString();
+            objArr.push(rowO);
+        }
     }
     $('#myRows').append(genHtml);
 };
 
 var RowModel = function() {
     this.vPos = 0.0;
+    this.hPos = 0.0;
     this.id = 1;
     this.text = ""
     this.index = 0;
@@ -122,6 +125,9 @@ var RowModel = function() {
     this.setVPos = function(delta) {
         this.vPos += -delta;
     };
+    this.setHPos = function(delta) {
+        this.hPos += -delta;
+    }
 
     this.moveUp = function() {
         this.index -= nrOfRows();
