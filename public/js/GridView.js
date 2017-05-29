@@ -8,17 +8,18 @@ Date.prototype.getMonthName = function() {
 }
 var sqares = 100;
 var todayDate = new Date();
-var container = document.getElementById('container');
+var container = document.getElementById('myRows');
 
 
 var cRect = container.getBoundingClientRect();
 var cWidth = 500;
 var cHeight = 500;
-var rowHeight = 30;
+var cardHeight = 255;
+var cardWidth = 200;
 var sep = 10;
 var cTop = cRect.top;
-var topPos = (cHeight + (rowHeight * 2)) - cTop;
-var bottomPos = (cHeight + (rowHeight * 2)) - cTop;
+var topPos = (cHeight + (cardHeight * 2)) - cTop;
+var bottomPos = (cHeight + (cardHeight * 2)) - cTop;
 
 //*****************************************************
 //*************** scroll event
@@ -41,7 +42,7 @@ function weelEvent(e) {
 var objArr = [];
 
 function nrOfRows() {
-    return cHeight / (sep + rowHeight) + 1;
+    return Math.round(cHeight / (sep + cardHeight));
 }
 
 function moveRows(delta) {
@@ -64,38 +65,28 @@ function moveRows(delta) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function render() {
     var genHtml = ""
     console.log(nrOfRows());
     for (var i = 0, max = nrOfRows(); i < max; i++) {
-        var d = new Date(todayDate.addDays(i));
-        var rowO = new RowModel();
-        rowO.id = i;
-        rowO.index = i;
-        rowO.setText(formatDate(todayDate.addDays(rowO.index)));
-        rowO.vPos = (rowHeight + sep) * i + cTop;
+        for (var j = 0; j < 6; j++) {
+            var rowO = new RowModel();
+            rowO.id = i;
+            rowO.index = i;
+            rowO.setText(formatDate(todayDate.addDays(rowO.index)));
+            rowO.vPos = (cardHeight + sep) * i + cTop;
+            rowO.hPos = (cardWidth + sep) * i + cTop; // todo : fix this one
 
-        genHtml += rowO.htmlString();
-        objArr.push(rowO);
-
+            genHtml += rowO.htmlString();
+            objArr.push(rowO);
+        }
     }
-    $('.container').append(genHtml);
+    $('#myRows').append(genHtml);
 };
 
 var RowModel = function() {
     this.vPos = 0.0;
+    this.hPos = 0.0;
     this.id = 1;
     this.text = ""
     this.index = 0;
@@ -106,7 +97,7 @@ var RowModel = function() {
 
     this.htmlString = function() {
         return `
-<div id="${this.id}" class="col-sm-3">
+<div id="${this.id}" class="day-card" style="top:${this.vPos}px; width:200px;">
     <div class="well">
         <h4><span class="fa fa-calendar"></span> ${this.text} </h4>
         <div class="input-group">
@@ -134,9 +125,12 @@ var RowModel = function() {
     this.setVPos = function(delta) {
         this.vPos += -delta;
     };
+    this.setHPos = function(delta) {
+        this.hPos += -delta;
+    }
 
     this.moveUp = function() {
-        this.index -= 14;
+        this.index -= nrOfRows();
         this.DOM(todayDate.addDays(this.index));
         this.setVPos(560);
         $(`#${this.id}`).css({
@@ -145,7 +139,7 @@ var RowModel = function() {
     };
 
     this.moveDown = function() {
-        this.index += 14;
+        this.index += nrOfRows();
         this.DOM(todayDate.addDays(this.index));
         this.setVPos(-560);
         $(`#${this.id}`).css({
@@ -155,7 +149,7 @@ var RowModel = function() {
 
     this.DOM = function(newDate) {
         var readableDate = formatDate(newDate);
-        $(`#${this.id}`).text(`${this.id} - ${readableDate}`);
+        $(`#${this.id} > div.well > h4`).text(`${readableDate}`);
         this.setText(`${readableDate}`);
     };
 };
