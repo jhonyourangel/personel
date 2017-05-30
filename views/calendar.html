@@ -12,7 +12,7 @@
     <div class="container">
         <div id="myRows" class="row">
             <!-- LOCAL INFORMATION -->
-            <input type="text" id="foo" placeholder="this is the ext">
+            <input type="time" id="foo">
         </div>
     </div>
 </body>
@@ -28,6 +28,7 @@ function bindModelInput(obj, property, domElem) {
         set: function(newValue) {
             domElem.value = newValue;
             domElem.innerHTML = newValue;
+            console.log(user.time);
         },
         configurable: true
     });
@@ -35,9 +36,9 @@ function bindModelInput(obj, property, domElem) {
 
 user = {};
 inputElem = document.getElementById("foo");
-bindModelInput(user, 'name', inputElem);
+bindModelInput(user, 'time', inputElem);
 
-user.name = "Joe";
+user.time = "00:00";
 
 //inputElem.value = 'Bob';
 </script>
