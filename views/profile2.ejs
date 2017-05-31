@@ -9,21 +9,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Personel</title>
     <!-- Bootstrap -->
-    <link href="../public/vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../vendors/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../public/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="../public/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
-    <link href="../public/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
     <!-- bootstrap-progressbar -->
-    <link href="../public/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
     <!-- JQVMap -->
-    <link href="../public/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
     <!-- bootstrap-daterangepicker -->
-    <link href="../public/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="../public/css/custom.css" rel="stylesheet">
+    <link href="../css/custom.css" rel="stylesheet">
     <style type="text/css">
     .input-group-addon {
         padding: 6px;
@@ -51,7 +51,7 @@
                     <!-- menu profile quick info -->
                     <div class="profile clearfix">
                         <div class="profile_pic">
-                            <img src="../public/images/userPic.jpg" alt="..." class="img-circle profile_img">
+                            <img src="../images/userPic.jpg" alt="..." class="img-circle profile_img">
                         </div>
                         <div class="profile_info">
                             <span>Benvenuto,</span>
@@ -63,14 +63,19 @@
                     <!-- sidebar menu -->
                     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                         <div class="menu_section">
-                            <h3>Timesheet</h3>
-                            <ul class="nav side-menu">
-                                <li id="administration"><a><i class="fa fa-table"></i> Administration <span class="fa fa-chevron-down"></span></a>
+                            <h3>Administration</h3>
+                            <ul id="admin-parent" class="nav side-menu">
+                                <li id="timeSheet"><a><i class="fa fa-home"></i> Administration <span class="fa fa-chevron-down"></span></a>
                                     <ul id="monthsList" class="nav child_menu">
+                                        <li><a href="profile.js">Profile</a></li>
                                     </ul>
                                 </li>
+                            </ul>
+                            <h3>Timesheet</h3>
+                            <ul class="nav side-menu">
                                 <li id="timeSheet"><a><i class="fa fa-table"></i> Timesheet <span class="fa fa-chevron-down"></span></a>
                                     <ul id="monthsList" class="nav child_menu">
+                                        <li><a href="#!01/05/2017">June 2017</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -89,7 +94,7 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="">
                                 <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <img src="../public/images/userPic.jpg" alt="">Ion Utale
+                                    <img src="../images/userPic.jpg" alt="">Ion Utale
                                     <span class=" fa fa-angle-down"></span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -112,7 +117,7 @@
                                 <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                     <li>
                                         <a>
-                                            <span class="image"><img src="../public/images/userPic.jpg" alt="Profile Image" /></span>
+                                            <span class="image"><img src="../images/userPic.jpg" alt="Profile Image" /></span>
                                             <span>
                           <span>Ion Utale
 </span>
@@ -125,7 +130,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <span class="image"><img src="../public/images/userPic.jpg" alt="Profile Image" /></span>
+                                            <span class="image"><img src="../images/userPic.jpg" alt="Profile Image" /></span>
                                             <span>
                           <span>Ion Utale</span>
                                             <span class="time">3 mins ago</span>
@@ -137,7 +142,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <span class="image"><img src="../public/images/userPic.jpg" alt="Profile Image" /></span>
+                                            <span class="image"><img src="../images/userPic.jpg" alt="Profile Image" /></span>
                                             <span>
                           <span>Ion Utale</span>
                                             <span class="time">3 mins ago</span>
@@ -149,7 +154,7 @@
                                     </li>
                                     <li>
                                         <a>
-                                            <span class="image"><img src="../public/images/userPic.jpg" alt="Profile Image" /></span>
+                                            <span class="image"><img src="../images/userPic.jpg" alt="Profile Image" /></span>
                                             <span>
                           <span>Ion Utale</span>
                                             <span class="time">3 mins ago</span>
@@ -185,7 +190,7 @@
             <!-- footer content -->
             <footer>
                 <div class="pull-right">
-                    Personel - by Ion Utale
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
                 </div>
                 <div class="clearfix"></div>
             </footer>
@@ -193,13 +198,11 @@
         </div>
     </div>
     <!-- jQuery -->
-    <script src="../public/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="../public/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Custom Theme Scripts -->
-    <script src="../public/js/custom.min.js"></script>
-    <!-- Custom Grid timesheet days -->
-    <script src="../public/js/MonthView.js"></script>
+    <script src="../js/custom.min.js"></script>
     <script type="text/javascript">
     </script>
 </body>
