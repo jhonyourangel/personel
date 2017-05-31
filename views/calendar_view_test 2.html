@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>test infinite scroll</title>
+    <link rel="stylesheet" href="../public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/font-awesome/css/font-awesome.min.css">
+    <style type="text/css">
+    .row {
+        position: absolute;
+        width: 200px;
+        height: 30px;
+        background-color: red;
+    }
+    
+    .container {
+        width: 500px;
+        height: 500px;
+        background-color: blue;
+    }
+    
+    .myP {
+        width: 50px;
+        height: 20px;
+        margin: 2px;
+    }
+    
+    .colored {
+        background-color: rgb(226, 160, 160);
+    }
+    
+    .trasnparent {
+        background-color: transparent;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container">
+    </div>
+</body>
+<script src="../public/jquery/jquery.js"></script>
+<script type="text/javascript">
+Date.prototype.addDays = function(d) {
+    return this.valueOf() + 864E5 * d;
+};
+var sqares = 100;
+var todayDate = new Date();
+
+
+//genMonth();
+
+function genMonth() {
+    var sqaresHTML = "";
+    for (var i = 0; i < sqares; i++) {
+        var d = new Date(todayDate.addDays(i));
+        //console.log(d);
+        // if 1 day of the month add new row and empty slots
+        // if error on 1 day display spot check system format
+        // EU - 1 day
+        // US - 2 day
+
+        // rules to consider:
+        // 1. First day of the week
+        // 2. First day of the month
+        // 
+
+        var weekDay = d.getDay();
+        var monthDay = d.getDate();
+
+        // the first day in the sett date
+        if (weekDay !== 0 && monthDay !== 1 && i === 0) {
+            sqaresHTML += genRowBeggin();
+            sqaresHTML += genTrasparent(weekDay);
+        }
+        // first day of the week
+        if (weekDay === 0) {
+            sqaresHTML += genRowBeggin();
+            sqaresHTML += genSquare(d);
+        }
+
+        // not the first or last day of teh week, not the first day of the month 
+        if (weekDay > 0 && weekDay < 6 && monthDay !== 1) {
+            sqaresHTML += genSquare(d);
+        }
+
+        // last day of the week
+        if (weekDay === 6) {
+            sqaresHTML += genSquare(d);
+            sqaresHTML += genRowEnd();
+        }
+
+        // first day of the month and not the last day of the week
+        if (monthDay === 1 && weekDay !== 6) {
+            sqaresHTML += genTrasparent(7 - weekDay);
+            sqaresHTML += genRowEnd();
+            sqaresHTML += genRowBeggin();
+            sqaresHTML += genTrasparent(weekDay);
+            sqaresHTML += genSquare(d);
+        }
+    }
+    //console.log(sqaresHTML);
+    $('.container').append(sqaresHTML);
+}
+
+function genRowBeggin() {
+    return '<div class="row">';
+}
+
+function genRowEnd() {
+    return '</div>';
+}
+
+function genSquare(d) {
+    return `<div class="col-xs-6 myP colored">${d.getDate()}</div>`
+}
+
+function genTrasparent(nr) {
+    var sqaresHTML = "";
+    for (var i = 0; i < nr; i++) {
+        sqaresHTML += `<div class="col-xs-6 myP transparent"></div>`;
+    }
+    return sqaresHTML;
+}
+
+
+
+//*****************************************************
+//*************** scroll event
+//***************
+
+// the scroll is working fine, but i need to reposition all the row
+// the css attribute "position" : "absolute" is positioning all the 
+// elements on the first pixels of the .container
+
+document.getElementById('container').addEventListener('wheel', weelEvent);
+
+function weelEvent(e) {
+    // cross-browser wheel delta
+    var e = window.event || e; // old IE support
+    var delta = Math.max(-40, Math.min(40, (e.wheelDelta || -e.detail)));
+    moveRows(-delta);
+}
+
+var cWidth = 500;
+var cHeight = 500;
+var rowHeight = 30;
+var sep = 10;
+
+var firstRowPos = 0;
+var lastRowPos = 0;
+
+var objArr = [];
+
+function nrOfRows() {
+    return cHeight / (sep + rowHeight) + 1;
+}
+
+function moveRows(delta) {
+    var rowToReuse;
+    for (var i = 0; i < objArr.length; i++) {
+        objArr[i].setVPos(delta);
+        $(`#${objArr[i].id}`).css({
+            top: `-=${delta}px`
+        });
+
+        if (objArr[i].vPos > cHeight) {
+            console.log(`${objArr[i].id} should move up`);
+            objArr[i].moveUp();
+        }
+
+        if (objArr[i].vPos < -40) {
+            console.log(`${objArr[i].id} should move up`);
+            objArr[i].moveDown();
+        }
+    }
+}
+
+function render() {
+    var genHtml = ""
+
+    for (var i = 0, max = nrOfRows(); i < max; i++) {
+        var d = new Date(todayDate.addDays(i));
+        console.log(d.getDate());
+        var rowO = new rowObj();
+        rowO.id = i;
+        //rowO.setText(`${d.getDate()}/${d.getMonth()}/${d.getYear()}`);
+        rowO.setText(`bohh`);
+        rowO.vPos = (rowHeight + sep) * i;
+
+        genHtml += rowO.htmlString();
+        objArr.push(rowO);
+
+    }
+    //$('.container').html("");
+    $('.container').append(genHtml);
+}
+var rowObj = function() {
+    this.vPos = 0.0;
+    this.id = 1;
+    this.delta = 0;
+    this.text = ""
+    this.setText = function(value) {
+        this.text = value;
+        return "text " + this.text;
+    };
+    this.htmlString = function() {
+        return `<div id="${this.id}" class="row" style="top:${this.vPos}px;">${this.id} - ${this.text}</div>`;
+    };
+    this.setVPos = function(newValue) {
+
+        this.vPos += -newValue;
+
+        /*this.DOM(this.id, newValue, this.text);
+
+        if (this.vPos > cHeight) {
+            this.vPos += 560;
+            this.DOM(this.id, 560, this.text);
+
+        }
+
+        if (this.vPos < -40) {
+            this.vPos += 560;
+            this.DOM(this.id, -560, this.text);
+
+        }
+
+        // check the above conditions
+        if (this.id == 12) {
+            console.log(this.id, this.vPos, $(`#12`).css('top'));
+        }
+        */
+
+    };
+
+    this.moveUp = function() {
+        this.setVPos(560);
+
+        $(`#${this.id}`).css({
+            top: `-=${560}px`
+        });
+    }
+    this.moveDown = function() {
+        this.setVPos(-560);
+
+        $(`#${this.id}`).css({
+            top: `-=${-560}px`
+        });
+    }
+    this.DOM = function(id, pos, text) {
+        $(`#${id}`).css({
+            top: `-=${pos}px`
+        });
+        $(`#${id}`).text(`${id} - ${text}`);
+    }
+}
+render();
+</script>
+
+</html>
