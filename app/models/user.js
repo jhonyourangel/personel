@@ -28,6 +28,18 @@ var userSchema = mongoose.Schema({
         email: String,
         name: String
     },
+    personalInfo: {
+        updated: { type: Date, default: Date.now },
+        name: String,
+        surname: String,
+        midleName: String,
+        birthDate: Date,
+        fiscalCode: String
+    },
+    workInfo: {
+        updated: { type: Date, default: Date.now },
+
+    },
 
     role: String
 

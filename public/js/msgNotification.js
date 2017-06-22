@@ -1,5 +1,5 @@
 var ICellView = {
-    id: "1"
+    id: "1",
     userImage: "../public/images/userPic.jpeg",
     username: "Ion Utale",
     msgDate: "3 min ago",

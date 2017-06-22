@@ -45,8 +45,10 @@ let MonthView = function() {
     this.render = function() {
         let genHtml = ""
         $('#myRows').html(genHtml);
-
-        for (let i = 0; i < thisMonthDate.getDay() - 1; i++) {
+        // fixed the month display when the first day of the month is sunday
+        // at first test works
+        var blankDays = (thisMonthDate.getDay() === 0 && thisMonthDate.getDate() === 1 ? 7 : thisMonthDate.getDay()) - 1;
+        for (let i = 0; i < blankDays; i++) {
             let rowO = new RowModel();
             rowO.id = 999;
             rowO.bool = true;

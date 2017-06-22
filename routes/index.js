@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Role = require('../app/models/role.js');
+var User = require('../app/models/user.js');
 
 //var yt_dl = require('./youtube_dl.js');
 
@@ -86,6 +87,24 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
+
+
+    //***************** dinamic RESTfull *******/
+    app.get('/profile/:name', function(req, res) {
+        console.log(req.params.name);
+        if (req.params.name === "all") {
+            User.find({}, "", function(err, user) {
+                console.log(err, user);
+                res.json({ err, user });
+            });
+        } else {
+            User.findOne({ "personalInfo.name": req.params.name }, "personalInfo", function(err, user) {
+                console.log(err, user);
+                res.json({ err, user });
+            });
+        }
+    });
+
 };
 
 // route middleware to make sure a user is logged in

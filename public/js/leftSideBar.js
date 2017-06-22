@@ -23,7 +23,6 @@ function generateTree(obj) {
         if (obj.children.length > 0) {
             sideBarHTML += `<ul class="nav child_menu">`;
             obj.children.forEach(function(node) {
-                console.log(node);
                 sideBarHTML += generateTree(node);
             });
             sideBarHTML += `</ul>`;
