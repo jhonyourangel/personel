@@ -1,0 +1,89 @@
+<div class="page-title">
+  <div class="title_left">
+    <h3>All Employees </h3>
+  </div>
+
+  <div class="title_right">
+    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+      <div class="input-group">
+        <input (keyup)="searchBarValueChange($event)" type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Go!</button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+    <ul class="pagination pagination-split" (click)="updateUsers()">
+      <li><a routerLink="../A">A</a></li>
+      <li><a routerLink="../B">B</a></li>
+      <li><a routerLink="../C">C</a></li>
+      <li><a routerLink="../D">D</a></li>
+      <li><a routerLink="../E">E</a></li>
+      <li><a routerLink="../F">F</a></li>
+      <li><a routerLink="../G">G</a></li>
+      <li><a routerLink="../H">H</a></li>
+      <li><a routerLink="../I">I</a></li>
+      <li><a routerLink="../J">J</a></li>
+      <li><a routerLink="../K">K</a></li>
+      <li><a routerLink="../L">L</a></li>
+      <li><a routerLink="../M">M</a></li>
+      <li><a routerLink="../N">N</a></li>
+      <li><a routerLink="../O">O</a></li>
+      <li><a routerLink="../P">P</a></li>
+      <li><a routerLink="../Q">Q</a></li>
+      <li><a routerLink="../R">R</a></li>
+      <li><a routerLink="../S">S</a></li>
+      <li><a routerLink="../T">T</a></li>
+      <li><a routerLink="../U">U</a></li>
+      <li><a routerLink="../V">V</a></li>
+      <li><a routerLink="../W">W</a></li>
+      <li><a routerLink="../X">X</a></li>
+      <li><a routerLink="../Y">Y</a></li>
+      <li><a routerLink="../Z">Z</a></li>
+    </ul>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="x_panel">
+    <div class="col-md-4 col-sm-4 col-xs-12 profile_details" *ngFor="let user of aaUsers">
+      <div class="well profile_view">
+        <div class="col-sm-12">
+          <h4 class="brief"><i>Digital Strategist</i></h4>
+          <div class="left col-xs-7">
+            <h2>{{user.name}} {{user.surname}}</h2>
+            <p><strong>About: </strong> {{user.qualification}} </p>
+            <ul class="list-unstyled">
+              <li><i class="fa fa-envelope"></i> Address: {{user.email}}</li>
+              <li><i class="fa fa-phone"></i> Phone #: {{user.phone}}</li>
+            </ul>
+          </div>
+          <div class="right col-xs-5 text-center">
+            <img [src]="user.profileImage" alt="" class="img-circle img-responsive">
+          </div>
+        </div>
+        <div class="col-xs-12 bottom text-center">
+          <div class="col-xs-12 col-sm-6 emphasis">
+            <p class="ratings">
+              <a>4.0</a>
+              <a href="#"><span class="fa fa-star"></span></a>
+              <a href="#"><span class="fa fa-star"></span></a>
+              <a href="#"><span class="fa fa-star"></span></a>
+              <a href="#"><span class="fa fa-star"></span></a>
+              <a href="#"><span class="fa fa-star-o"></span></a>
+            </p>
+          </div>
+          <div class="col-xs-12 col-sm-6 emphasis">
+            <button type="button" class="btn btn-success btn-xs"> <i class="fa fa-user">
+            </i> <i class="fa fa-comments-o"></i> </button>
+            <button type="button"  (click)="getButtonInfo(user.email)"  class="btn btn-primary btn-xs">
+            <i class="fa fa-user"> </i> View Profile
+          </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

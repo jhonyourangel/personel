@@ -5,15 +5,16 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('LogInSiteTemplate:server');
+var debug = require('debug')('MEAN-stack-authentication:server');
 var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
-
-var port = normalizePort(process.env.PORT || '3000');
+var ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+var port = normalizePort(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('port', port);
+app.set('ip', ip);
 
 /**
  * Create HTTP server.
@@ -25,7 +26,8 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+//server.listen(port);
+server.listen(port, ip);
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -60,7 +62,7 @@ function onError(error) {
 
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
-    : 'Port ' + port;
+    : 'Port ' + port
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -87,4 +89,6 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(addr)
+  console.log(bind)
 }
