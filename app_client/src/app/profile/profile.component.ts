@@ -34,12 +34,16 @@ export class ProfileComponent implements OnInit {
     const username = this.document.location.pathname.split('/profile/')[1];
 
     this.data.getProfile(username, data => {
+      console.log(data)
+      console.log(data['body'])
       const aUser = JSON.parse(data['_body']);
-      console.log(aUser);
+      this.user = aUser;
+      console.log('this.user', this.user)
+      console.log('aUser', aUser)
 
       aUser.profileImage = this.checkIFUserHasProfileImage(aUser);
-      this.user = aUser;
       this.navSer.setNavBarState(aUser);
+
 
     }, err => {
       console.log('no profile found', err);
@@ -74,6 +78,7 @@ export class ProfileComponent implements OnInit {
   }
 
   checkIFUserHasProfileImage(user) {
+    console.log('user', user)
     if (user.profileImage === '') {
       return './images/ion.utale.profile.jpg';
     }

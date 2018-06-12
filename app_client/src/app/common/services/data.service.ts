@@ -13,7 +13,7 @@ export class DataService {
   createAuthorizationHeader(headers: Headers) {
     headers.append('Authorization', 'Bearer ' + this.authentication.getToken());
   }
- 
+
   getProfile(username, callBackRes, callBackErr) {
     const headers = new Headers();
     this.createAuthorizationHeader(headers);

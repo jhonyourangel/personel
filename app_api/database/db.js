@@ -2,7 +2,7 @@ let mongoose = require('mongoose');
 mongoose.Promise = global.Promise
 
 let gracefulShutdown;
-let dbURI = process.env.atlasDb;
+let dbURI = process.env.ATLAS_DB_PERSONEL;
 
 // connection options
 const options = {

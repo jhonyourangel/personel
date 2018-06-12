@@ -65,8 +65,7 @@ module.exports.login = function (req, res) {
             console.log(aUser)
             console.log("stringify aUser:", JSON.stringify(aUser));
 
-            res.status(200);
-            res.json(aUser);
+            res.status(200).json(aUser);
         } else {
             // If aUser is not found
             res.status(401).json(info);

@@ -55,18 +55,18 @@ module.exports.findByUsername = function (req, res) {
     // find all users, get only the name field and limit to 5 users
     console.log('get user by name');
     console.log("username called:", req.params.username);
-    console.log('mongoose connection db:', mongoose.connection.name)
-    // \bE\w+
+
     const rEx_username = new RegExp(req.params.username, 'i');
     console.log(rEx_username)
     User
         .findOne({'username' : rEx_username})
-        .exec(function (err, user) {
-            console.log(`err:${err}, user:${user}`);
-            if (err) return console.log(err);
+        .then(user => {
             console.log("here is your user:",user);
             res.status(200).json(user);
-        });
+        })
+        .catch(error => {
+            console.log(`err:${error}, user:${user}`);
+        })
 };
 
 /**

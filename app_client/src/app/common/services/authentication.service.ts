@@ -71,8 +71,7 @@ export class AuthenticationService {
 
     login(user, callback) {
         return this.http.post(this.getUrl() + '/api/login', user).subscribe(data => {
-            console.log("login authentication class");
-            console.log(JSON.parse(data['_body']).token)
+            console.log(`JSON.parse(data['_body']).token:`, data)
             this.saveToken(JSON.parse(data['_body']).token);
             this.currentUser();
             callback();
@@ -86,7 +85,8 @@ export class AuthenticationService {
 
     // development only
     getUrl() {
-        return ''; // 'http://127.0.0.1:3000'; //this.document.location.origin;
+        const reg = /localhost/gmi
+        return  reg.test(this.document.location.origin) ? 'http://127.0.0.1:8080' : this.document.location.origin;
     }
 
 }
