@@ -12,61 +12,61 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  // surname: {
-  //   type: String,
-  //   required: false
-  // },
-  // username: {
-  //   type: String,
-  //   required: false
-  // },
-  // profileImage: {
-  //   type: String,
-  //   required: false,
-  //   default: '../images/user.png'
-  // },
-  // address: {
-  //   street: {
-  //     type: String,
-  //     required: false,
-  //     default: ''
-  //   },
-  //   number: {
-  //     type: String,
-  //     required: false,
-  //     default: ''
-  //   },
-  //   city: {
-  //     type: String,
-  //     required: false,
-  //     default: ''
-  //   },
-  //   postaCode: {
-  //     type: String,
-  //     required: false,
-  //     default: ''
-  //   },
-  //   country: {
-  //     type: String,
-  //     required: false,
-  //     default: ''
-  //   },
-  //   full: {
-  //     type: String,
-  //     required: false,
-  //     default: ''
-  //   }
-  // },
-  // qualification: {
-  //   type: String,
-  //   required: false,
-  //   default: ''
-  // },
-  // phone: {
-  //   type: String,
-  //   required: false,
-  //   default: ''
-  // },
+  surname: {
+    type: String,
+    required: false
+  },
+  username: {
+    type: String,
+    required: false
+  },
+  profileImage: {
+    type: String,
+    required: false,
+    default: '../images/user.png'
+  },
+  address: {
+    street: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    number: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    city: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    postaCode: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    country: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    full: {
+      type: String,
+      required: false,
+      default: ''
+    }
+  },
+  qualification: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  phone: {
+    type: String,
+    required: false,
+    default: ''
+  },
   token: String,
   hash: String,
   salt: String
