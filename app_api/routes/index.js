@@ -72,4 +72,27 @@ router.delete('/ios/deleteproject', auth, projects.deleteProject);
  // get the list of all the users
 router.get('/ios/get/users', dbUsers.getAllUsers);
 
+
+
+
+/**
+ * adding api support for pwa app 
+ */
+// transactions
+router.get('/pwa/transaction/:transaction', auth,transactions.getTransaction);
+router.get('/pwa/transactions', auth,transactions.getTransactions);
+router.post('/pwa/addtransaction', auth,transactions.postTransaction);
+router.put('/pwa/edittransaction', auth,transactions.putTransaction);
+router.delete('/pwa/deletetransaction', auth, transactions.deleteTransactions);
+
+// project
+router.get('/pwa/project/:project', auth, projects.getProject);
+router.get('/pwa/projects', auth, projects.getProjects);
+router.post('/pwa/addproject', auth, projects.postProject);
+router.put('/pwa/editproject', auth, projects.putProject);
+router.delete('/pwa/deleteproject', auth, projects.deleteProject);
+
+ // get the list of all the users
+router.get('/pwa/get/users', dbUsers.getAllUsers);
+
 module.exports = router;
