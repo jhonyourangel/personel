@@ -109,17 +109,29 @@ module.exports.postTransaction = function (req, res) {
 module.exports.putTransaction = function (req, res) {
     // find all users, get only the name field and limit to 5 users
     const d = req.body
+
+    // some may send without undescore
+    d.id = d.id || d._id
+
+    // some clients are sending the 1 for true and 0 for false
+    if (d.billed === "1" || d.billed === "0") {
+        console.log("modifying the billed");
+        d.billed === "1" ? true : false;
+    }
+
+    console.log(d);
     // console.log(Date(moment(d.startTime, IN_DATE_FORMAT).toDate()))
     // console.log(Date(moment(d.endTime, IN_DATE_FORMAT).toDate()))
     console.log(d.startTime, '::', moment(d.startTime, IN_DATE_FORMAT).toDate())
     console.log(d.endTime, "::", moment(d.endTime, IN_DATE_FORMAT).toDate())
 
-    Transaction.findByIdAndUpdate(d.id, {
+    Transaction.findByIdAndUpdate({_id: d.id}, {
         editDate: Date(),
         description: d.description,
-        billed: d.billed === "1" ? true : false,
+        billed: d.billed,
         startTime: moment(d.startTime, IN_DATE_FORMAT).toDate(),
-        endTime: moment(d.endTime, IN_DATE_FORMAT).toDate()
+        endTime: moment(d.endTime, IN_DATE_FORMAT).toDate(),
+        projectName: d.projectName
     }).then((savingResposne) => {
         console.log("transaction has been updated:", savingResposne)
         res.status(200).json({
