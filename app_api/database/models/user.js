@@ -93,6 +93,11 @@ userSchema.methods.generateJwt = function () {
     name: this.name,
     profileImage: this.profileImage,
     exp: parseInt(expiry.getTime()),
+    /**
+     * the server was removing the last 4 characters ( this was transforming the token expiring date in seconds instead of milliseconds ) 
+       from the expiring date of the token, this as causing confusion on pwa side.
+     * i've removed, this will create problems with iOS app, but since the app is being replaced i wanna use normal time milliseconds length
+     */
   }, process.env.MY_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
 
