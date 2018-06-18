@@ -85,13 +85,14 @@ userSchema.methods.validPassword = function (password) {
 userSchema.methods.generateJwt = function () {
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
+
   console.log("it gets here");
   return jwt.sign({
     _id: this._id,
     email: this.email,
     name: this.name,
     profileImage: this.profileImage,
-    exp: parseInt(expiry.getTime() / 1000),
+    exp: parseInt(expiry.getTime()),
   }, process.env.MY_SECRET); // DO NOT KEEP YOUR SECRET IN THE CODE!
 };
 
