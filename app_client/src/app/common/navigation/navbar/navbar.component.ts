@@ -73,7 +73,7 @@ export class NavbarComponent implements OnInit {
         // run check if is still loged in, which should not
         // this will force an update of the nav bar with new links
 
-        // called to update the sidebar 
+        // called to update the sidebar
         this.navState$.setNavBarState(this.user);
 
         this.isLoggedInF();
