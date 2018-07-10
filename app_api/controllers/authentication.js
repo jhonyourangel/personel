@@ -51,6 +51,7 @@ module.exports.login = function (req, res) {
     console.log("log in called:", req.body.email, ": ", req.body.password)
     passport.authenticate('local', function (err, user, info) {
         // If Passport throws/catches an error
+        console.log(info)
         if (err) {
             res.status(404).json(err);
             return;
@@ -59,10 +60,8 @@ module.exports.login = function (req, res) {
         let aUser = user
         if (aUser) {
             // add the token to the aUser in a hard way
-            aUser['token'] = aUser.generateJwt();
-            console.log(aUser.generateJwt());
-            console.log(aUser.token)
-            console.log(aUser)
+            aUser.token = aUser.generateJwt();
+            aUser.save()
             console.log("stringify aUser:", JSON.stringify(aUser));
 
             res.status(200).json(aUser);
@@ -71,4 +70,20 @@ module.exports.login = function (req, res) {
             res.status(401).json(info);
         }
     })(req, res);
+};
+
+module.exports.reauth = async function (req, res) {
+
+    const user = await User.findOne({'email' : req.body.email})
+    const bearer = req.get('authorization')
+    const token = bearer.split(' ')[1]
+    console.log(bearer)
+
+    if (user.validJWT(token)) {
+        user.token = user.generateJwt()
+        user.save()
+        res.status(200).json(user)
+    } else {
+        res.status(403).json({'msg' : 'the token is not valid'})
+    }    
 };

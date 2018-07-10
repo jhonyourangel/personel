@@ -38,6 +38,9 @@ router.post('/register', ctrlAuth.register);
 // handle login
 router.post('/login', ctrlAuth.login);
 
+// handle login
+router.post('/reauth', ctrlAuth.reauth);
+
 // save user profile information 
 router.post('/save/profile', auth, ctrlProfile.profileSave);
 

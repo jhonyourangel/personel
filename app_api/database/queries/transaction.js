@@ -38,7 +38,7 @@ module.exports.getTransactions = function (req, res) {
         })
         .exec()
         .then((transactions) => {
-            console.log("transactions found:", transactions)
+            // console.log("transactions found:", transactions)
             res.status(200).json(transactions);
         }).catch((error) => {
             console.log("we have an error while trying to get transactions")
@@ -65,7 +65,7 @@ module.exports.getTransaction = function (req, res) {
         })
         .exec()
         .then((transactions) => {
-            console.log("transactions found:", transactions)
+            // console.log("transactions found:", transactions)
             res.status(200).json(transactions);
         }).catch((error) => {
             console.log("we have an error while trying to get transaction by id:", id)
@@ -94,7 +94,7 @@ module.exports.postTransaction = function (req, res) {
     newT.projectName = d.projectName
 
     newT.save().then((savingResposne) => {
-        console.log("new transaction saved:", savingResposne)
+        // console.log("new transaction saved:", savingResposne)
         res.status(200).json(savingResposne);
     }).catch((error) => {
         console.log("unable to save the transaction. here is the error:", error)
@@ -133,7 +133,7 @@ module.exports.putTransaction = function (req, res) {
         endTime: moment(d.endTime, IN_DATE_FORMAT).toDate(),
         projectName: d.projectName
     }).then((savingResposne) => {
-        console.log("transaction has been updated:", savingResposne)
+        // console.log("transaction has been updated:", savingResposne)
         res.status(200).json({
             msg: "transaction edited :" + d.id,
             transaction: savingResposne
@@ -153,7 +153,7 @@ module.exports.deleteTransactions = function (req, res) {
 
     Transaction.findByIdAndRemove(d.id)
         .then((deleteResponse) => {
-            console.log(deleteResponse);
+            // console.log(deleteResponse);
             res.status(200).json({
                 msg: "transaction edited :" + d.id,
                 deleteResponse

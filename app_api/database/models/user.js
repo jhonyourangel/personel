@@ -82,6 +82,13 @@ userSchema.methods.validPassword = function (password) {
   return this.hash === hash;
 };
 
+userSchema.methods.validJWT = function (clientToken) {
+  console.log('this.token:', this.token)
+  console.log('clientToken:',clientToken)
+  
+  return this.token === clientToken;
+};
+
 userSchema.methods.generateJwt = function () {
   var expiry = new Date();
   // add 7 minutes from current date-time

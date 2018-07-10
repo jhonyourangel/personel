@@ -3,10 +3,14 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var User = mongoose.model('user');
 
+
+
 passport.use(new LocalStrategy({
-        usernameField: 'email'
+        usernameField: 'email',
     },
     function(username, password, done) {
+        console.log("username: ", username)
+
         User.findOne({ email: username }, function(err, user) {
             if (err) { return done(err); }
             // Return if user not found in database
@@ -21,8 +25,17 @@ passport.use(new LocalStrategy({
                     message: 'Password is wrong'
                 });
             }
+
+            // check the token and regenerate it 
+            // if (!user.validJWT('clientToken')) {
+            //     return done(null, false, {
+            //         message: 'Token is wrong'
+            //     });
+            // }
+
             // If credentials are correct, return the user object
             return done(null, user);
         });
     }
 ));
+
