@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
+let mongoose = require('mongoose');
+let crypto = require('crypto');
+let jwt = require('jsonwebtoken');
 
-var userSchema = new mongoose.Schema({
+let userSchema = new mongoose.Schema({
   email: {
     type: String,
     unique: true,
@@ -10,7 +10,7 @@ var userSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true
+    required: false
   },
   surname: {
     type: String,
@@ -68,6 +68,7 @@ var userSchema = new mongoose.Schema({
     default: ''
   },
   token: String,
+  expiresIn: String,
   hash: String,
   salt: String
 });
@@ -78,7 +79,7 @@ userSchema.methods.setPassword = function (password) {
 };
 
 userSchema.methods.validPassword = function (password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('hex');
+  let hash = crypto.pbkdf2Sync(password, this.salt, 10000, 64, 'sha512').toString('hex');
   return this.hash === hash;
 };
 
@@ -90,9 +91,10 @@ userSchema.methods.validJWT = function (clientToken) {
 };
 
 userSchema.methods.generateJwt = function () {
-  var expiry = new Date();
-  // add 7 minutes from current date-time
-  expiry.setDate(expiry.getMinutes() + 7);
+  let expiry = new Date();
+  // add 7 days from current date-time
+  expiry.setDate(expiry.getDate() + 7);
+  this.expiresIn = parseInt(expiry.getTime())
 
   console.log("it gets here");
   return jwt.sign({
@@ -100,7 +102,7 @@ userSchema.methods.generateJwt = function () {
     email: this.email,
     name: this.name,
     profileImage: this.profileImage,
-    exp: parseInt(expiry.getTime()),
+    exp: Number(this.expiresIn / 1000),
     /**
      * the server was removing the last 4 characters ( this was transforming the token expiring date in seconds instead of milliseconds ) 
        from the expiring date of the token, this as causing confusion on pwa side.

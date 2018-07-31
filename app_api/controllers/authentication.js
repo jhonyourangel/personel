@@ -12,35 +12,27 @@ module.exports.register = function (req, res) {
 
     var newuser = new User();
 
-    newuser.name = req.body.name;
-    newuser.surname = req.body.surname;
+    newuser.name = req.body.name || '';
+    newuser.surname = req.body.surname || '';
     newuser.email = req.body.email;
     newuser.username = req.body.email.split('@')[0];
 
     
     newuser.setPassword(req.body.password);
+    newuser.token = newuser.generateJwt();
 
-    var promise = newuser.save()
-    promise.then((dbRes) => {
-        console.log("user saved");
-        var token;
-        token = newuser.generateJwt();
-        console.log("ready to response with token");
-        res.status(200).json({
-            "token": token
-        });
+    newuser.save()
+    .then((dbRes) => {
+        res.status(200).json(newuser);
     }).catch(function(error) {
         console.error("error while trying to save the new user", error);
-        res.status(405).json({
-            "msg": "email already registred, please use a different email"
-        });
+        res.status(405).json(error);
     });
 
     // newuser.save().then((dbRes) => { console.log('new user is saved to the db') });
 };
 
 module.exports.login = function (req, res) {
-
     if(!req.body.email || !req.body.password) {
       sendJSONresponse(res, 400, {
         "message": "All fields required"
@@ -62,8 +54,6 @@ module.exports.login = function (req, res) {
             // add the token to the aUser in a hard way
             aUser.token = aUser.generateJwt();
             aUser.save()
-            console.log("stringify aUser:", JSON.stringify(aUser));
-
             res.status(200).json(aUser);
         } else {
             // If aUser is not found
