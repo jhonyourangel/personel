@@ -8,6 +8,11 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 const cors = require('cors')
 
+// redirect to https
+var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
+// Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
+app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
+
 // [SH] Bring in the data model
 require('./app_api/database/db');
 // [SH] Bring in the Passport config after model is defined
@@ -37,14 +42,6 @@ app.use(express.static(path.join(__dirname, 'app_client/dist')));
 
 // [SH] Initialise Passport before using the route middleware
 app.use(passport.initialize());
-
-// set up a route to redirect http to https
-app.get('*', function(req, res) {  
-    res.redirect('https://' + req.headers.host + req.url);
-
-    // Or, if you don't want to automatically detect the domain name from the request header, you can hard code it:
-    // res.redirect('https://example.com' + req.url);
-})
 
 // [SH] Use the API routes when path starts with /api
 app.use('/api', routesApi);
