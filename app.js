@@ -10,8 +10,7 @@ const cors = require('cors')
 
 // redirect to https
 var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
-// Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
-app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
+
 
 // [SH] Bring in the data model
 require('./app_api/database/db');
@@ -24,6 +23,9 @@ var routesApi = require('./app_api/routes/index');
 
 var app = express();
 app.use(cors({origin: '*'}));
+
+// Don't redirect if the hostname is `localhost:port` or the route is `/insecure`
+app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
