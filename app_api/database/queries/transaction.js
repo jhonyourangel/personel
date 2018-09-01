@@ -83,8 +83,8 @@ module.exports.postTransaction = function (req, res) {
     const d = req.body
     let newT = new Transaction()
 
-    newT.creationDate = Date()
-    newT.editDate = Date()
+    newT.creationDate = new Date()
+    newT.editDate = new Date()
     newT.description = d.description
     newT.billed = false
     newT.startTime = moment(d.startTime, IN_DATE_FORMAT).toDate()
@@ -124,6 +124,7 @@ module.exports.putTransaction = function (req, res) {
     // console.log(Date(moment(d.endTime, IN_DATE_FORMAT).toDate()))
     console.log(d.startTime, '::', moment(d.startTime, IN_DATE_FORMAT).toDate())
     console.log(d.endTime, "::", moment(d.endTime, IN_DATE_FORMAT).toDate())
+    console.log("Date()", Date(), "::", moment(Date(), IN_DATE_FORMAT).toDate())
 
     Transaction.findByIdAndUpdate({_id: d.id}, {
         editDate: Date(),
