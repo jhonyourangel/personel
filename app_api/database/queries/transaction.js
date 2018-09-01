@@ -5,7 +5,6 @@ var Transaction = mongoose.model('transaction');
 var Project = mongoose.model('project');
 
 const IN_DATE_FORMAT = "YYYY-MM-DD HH:mm:ss"
-const IN_DATE2_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSSZ"
 
 module.exports.getTransactions = function (req, res) {
     // find all users, get only the name field and limit to 5 users
@@ -79,16 +78,8 @@ module.exports.getTransaction = function (req, res) {
         })
 };
 
-function checkDateFormat(date) {
-    if (moment(date, IN_DATE_FORMAT).format(IN_DATE_FORMAT) === date) {
-        return moment(date, IN_DATE_FORMAT).format(IN_DATE_FORMAT).toDate()
-    }
-
-    return moment(date, IN_DATE2_FORMAT).format(IN_DATE2_FORMAT).toDate()
-}
-
 module.exports.postTransaction = function (req, res) {
-    // find all users, get only the name field and limit to 5 users
+
     const d = req.body
     let newT = new Transaction()
 
@@ -96,8 +87,8 @@ module.exports.postTransaction = function (req, res) {
     newT.editDate = Date()
     newT.description = d.description
     newT.billed = false
-    newT.startTime = checkDateFormat(d.startTime)
-    newT.endTime = checkDateFormat(d.endTime)
+    newT.startTime = moment(d.startTime, IN_DATE_FORMAT).toDate()
+    newT.endTime = moment(d.endTime, IN_DATE_FORMAT).toDate()
 
     newT.userId = d.userId
     newT.projectName = d.projectName
