@@ -156,7 +156,7 @@ module.exports.deleteTransactions = function (req, res) {
         .then((deleteResponse) => {
             // console.log(deleteResponse);
             res.status(200).json({
-                msg: "transaction edited :" + d.id,
+                msg: "transaction deleted :" + d.id,
                 deleteResponse
             });
         })
