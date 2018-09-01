@@ -5,6 +5,7 @@ var Transaction = mongoose.model('transaction');
 var Project = mongoose.model('project');
 
 const IN_DATE_FORMAT = "YYYY-MM-DD HH:mm:ss"
+const IN_DATE2_FORMAT = "YYYY-MM-DDTHH:mm:ss.SSSZ"
 
 module.exports.getTransactions = function (req, res) {
     // find all users, get only the name field and limit to 5 users
@@ -78,6 +79,14 @@ module.exports.getTransaction = function (req, res) {
         })
 };
 
+function checkDateFormat(date) {
+    if (moment(date, IN_DATE_FORMAT).format(IN_DATE_FORMAT) === date) {
+        return moment(date, IN_DATE_FORMAT).format(IN_DATE_FORMAT).toDate()
+    }
+
+    return moment(date, IN_DATE2_FORMAT).format(IN_DATE2_FORMAT).toDate()
+}
+
 module.exports.postTransaction = function (req, res) {
     // find all users, get only the name field and limit to 5 users
     const d = req.body
@@ -87,8 +96,8 @@ module.exports.postTransaction = function (req, res) {
     newT.editDate = Date()
     newT.description = d.description
     newT.billed = false
-    newT.startTime = moment(d.startTime, IN_DATE_FORMAT).toDate()
-    newT.endTime = moment(d.endTime, IN_DATE_FORMAT).toDate()
+    newT.startTime = checkDateFormat(d.startTime)
+    newT.endTime = checkDateFormat(d.endTime)
 
     newT.userId = d.userId
     newT.projectName = d.projectName
@@ -113,7 +122,7 @@ module.exports.putTransaction = function (req, res) {
     // some may send without undescore
     d.id = d.id || d._id
 
-    // some clients are sending the 1 for true and 0 for false
+    // some clients send the 1 for true and 0 for false
     if (d.billed === "1" || d.billed === "0") {
         console.log("modifying the billed");
         d.billed === "1" ? true : false;
