@@ -151,7 +151,7 @@ module.exports.putTransaction = function (req, res) {
 // 5a816995c05308001928b909
 module.exports.deleteTransactions = function (req, res) {
     const d = req.query
-
+    console.log(d)
     Transaction.findByIdAndRemove(d.id)
         .then((deleteResponse) => {
             // console.log(deleteResponse);
