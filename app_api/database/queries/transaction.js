@@ -124,10 +124,10 @@ module.exports.putTransaction = function (req, res) {
     // console.log(Date(moment(d.endTime, IN_DATE_FORMAT).toDate()))
     console.log(d.startTime, '::', moment(d.startTime, IN_DATE_FORMAT).toDate())
     console.log(d.endTime, "::", moment(d.endTime, IN_DATE_FORMAT).toDate())
-    console.log("Date()", Date(), "::", moment(Date(), IN_DATE_FORMAT).toDate())
+    console.log("new Date()", new Date(), "::", moment(new Date(), IN_DATE_FORMAT).toDate())
 
     Transaction.findByIdAndUpdate({_id: d.id}, {
-        editDate: Date(),
+        editDate: new Date(),
         description: d.description,
         billed: d.billed,
         startTime: moment(d.startTime, IN_DATE_FORMAT).toDate(),
