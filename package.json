@@ -1,6 +1,6 @@
 {
   "name": "personel",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Personel, CMS for my personal stuff",
   "main": "./bin/www",
   "private": true,
