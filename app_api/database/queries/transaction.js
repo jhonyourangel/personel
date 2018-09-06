@@ -150,15 +150,10 @@ module.exports.putTransaction = function (req, res) {
 
 // 5a816995c05308001928b909
 module.exports.deleteTransactions = function (req, res) {
-    const d = req.query
-    console.log(d)
-    Transaction.findByIdAndRemove(d.id)
+    Transaction.findByIdAndRemove(req.body.id)
         .then((deleteResponse) => {
             // console.log(deleteResponse);
-            res.status(200).json({
-                msg: "transaction deleted :" + d.id,
-                deleteResponse
-            });
+            res.status(200).json(deleteResponse);
         })
         .catch((error) => {
             console.log("unable to update the transaction. here is the error:", error)

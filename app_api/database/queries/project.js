@@ -102,15 +102,10 @@ module.exports.putProject = function (req, res) {
 };
 
 module.exports.deleteProject = function (req, res) {
-    const d = req.query
-    console.log("id to delete", d.id)
-    Project.findByIdAndRemove(d.id)
+    Project.findByIdAndRemove(req.body.id)
     .then( (project) => {
         console.log(project);
-        res.status(200).json({
-            msg: "Project deleted :" + d.id,
-            project
-        });
+        res.status(200).json(project);
     })
     .catch((error) => {
         console.log("unable to update the Project. here is the error:", error)
