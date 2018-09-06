@@ -81,9 +81,9 @@ module.exports.postProject = function (req, res) {
 // edit a project
 module.exports.putProject = function (req, res) {
     // find all users, get only the name field and limit to 5 users
-    const id = req.body.id || req.query.id
-    console.log(id, {body: req.body, query: req.query})
-    
+    const id = req.body.id || req.query.id || req.data.id
+    console.log(id, {body: req.body, query: req.query, data: req.data})
+
     Project.findByIdAndUpdate(d.id, {
         income: d.income,
         name: d.name
