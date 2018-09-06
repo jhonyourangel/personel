@@ -103,7 +103,7 @@ module.exports.putProject = function (req, res) {
 
 module.exports.deleteProject = function (req, res) {
     const id = req.body.id || req.query.id
-    console.log(id)
+    console.log(id, {body: req.body, query: req.query})
     Project.findByIdAndRemove(id)
     .then((project) => {
         console.log(project);
