@@ -109,8 +109,8 @@ module.exports.postTransaction = function (req, res) {
 module.exports.putTransaction = function (req, res) {
     // find all users, get only the name field and limit to 5 users
     const id = req.body.id || req.query.id
-    console.log(id, {body: req.body, query: req.query})
-
+    console.log("put:",id, {body: req.body, query: req.query})
+    let d = req.body
     // some may send without undescore
     d.id = d.id || d._id
 
@@ -121,20 +121,20 @@ module.exports.putTransaction = function (req, res) {
     }
 
     console.log(d);
-    // console.log(Date(moment(d.startTime, IN_DATE_FORMAT).toDate()))
-    // console.log(Date(moment(d.endTime, IN_DATE_FORMAT).toDate()))
     console.log(d.startTime, '::', moment(d.startTime, IN_DATE_FORMAT).utc().toDate())
     console.log(d.endTime, "::", moment(d.endTime, IN_DATE_FORMAT).utc().toDate())
     console.log("new Date()", new Date(), "::", moment(new Date(), IN_DATE_FORMAT).toDate())
 
-    Transaction.findByIdAndUpdate({_id: d.id}, {
+    Transaction.findByIdAndUpdate(d.id, {
         editDate: new Date(),
         description: d.description,
         billed: d.billed,
         startTime: moment(d.startTime, IN_DATE_FORMAT).toDate(),
         endTime: moment(d.endTime, IN_DATE_FORMAT).toDate(),
         projectName: d.projectName
-    }).then((savingResposne) => {
+    })
+    .exec()
+    .then((savingResposne) => {
         // console.log("transaction has been updated:", savingResposne)
         res.status(200).json({
             msg: "transaction edited :" + d.id,
