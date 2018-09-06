@@ -10,7 +10,10 @@ passport.use(new LocalStrategy({
     },
     function(username, password, done) {
         console.log("username: ", username)
-
+        // .select({
+        //     hash: 0,
+        //     salt: 0
+        // })
         User.findOne({ email: username }, function(err, user) {
             if (err) { return done(err); }
             // Return if user not found in database
@@ -25,13 +28,6 @@ passport.use(new LocalStrategy({
                     message: 'Password is wrong'
                 });
             }
-
-            // check the token and regenerate it 
-            // if (!user.validJWT('clientToken')) {
-            //     return done(null, false, {
-            //         message: 'Token is wrong'
-            //     });
-            // }
 
             // If credentials are correct, return the user object
             return done(null, user);

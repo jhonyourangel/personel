@@ -23,7 +23,18 @@ module.exports.register = function (req, res) {
 
     newuser.save()
     .then((dbRes) => {
-        res.status(200).json(newuser);
+        res.status(200).json({
+            _id: newuser._id,
+            address: newuser.address,
+            email: newuser.email,
+            expiresIn: newuser.expiresIn,
+            name: newuser.name,
+            profileImage: newuser.profileImage,
+            qualification: newuser.qualification,
+            surname: newuser.surname,
+            token: newuser.token,
+            username: newuser.username,
+        });
     }).catch(function(error) {
         console.error("error while trying to save the new user", error);
         res.status(405).json(error);
@@ -54,7 +65,18 @@ module.exports.login = function (req, res) {
             // add the token to the aUser in a hard way
             aUser.token = aUser.generateJwt();
             aUser.save()
-            res.status(200).json(aUser);
+            res.status(200).json({
+                _id: aUser._id,
+                address: aUser.address,
+                email: aUser.email,
+                expiresIn: aUser.expiresIn,
+                name: aUser.name,
+                profileImage: aUser.profileImage,
+                qualification: aUser.qualification,
+                surname: aUser.surname,
+                token: aUser.token,
+                username: aUser.username,
+            });
         } else {
             // If aUser is not found
             res.status(401).json(info);
